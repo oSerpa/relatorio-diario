@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { supabase } from './supabase'
 import Login from './Login'
 import Form from './Form'
-import { TIPOS, PRODUTOS, DOCUMENTOS, DIAS, brl, hojeISO, dataBR, semanaDe, resumo } from './constantes'
+import { TIPOS, PRODUTOS, DIAS, brl, hojeISO, dataBR, semanaDe, resumo } from './constantes'
 import { exportarPDF } from './pdf'
 
 export default function App() {
@@ -108,7 +108,7 @@ function Painel({ usuario }) {
                     {doDia.map((l) => (
                       <tr key={l.id} className={editando?.id === l.id ? 'editando' : ''}>
                         <td className="hora">{new Date(l.created_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</td>
-                        <td><span className={'tag ' + l.tipo}>{TIPOS[l.tipo]}{l.documento ? ': ' + DOCUMENTOS[l.documento] : ''}{l.quantidade > 1 ? ' × ' + l.quantidade : ''}</span></td>
+                        <td><span className={'tag ' + l.tipo}>{TIPOS[l.tipo]}{l.quantidade > 1 ? ' × ' + l.quantidade : ''}</span></td>
                         <td>{l.produto ? PRODUTOS[l.produto] : '-'}</td>
                         <td>{l.cliente || '-'}</td>
                         <td className="num">{l.valor != null ? brl(l.valor) : '-'}</td>
@@ -127,15 +127,6 @@ function Painel({ usuario }) {
         </div>
 
         <aside className="coluna">
-          <div className="card">
-            <h2>Emissões do dia</h2>
-            <div className="docs">
-              {Object.entries(DOCUMENTOS).map(([k, v]) => (
-                <div className="doc" key={k}><strong>{r.porDocumento[k]}</strong><span>{v}</span></div>
-              ))}
-            </div>
-          </div>
-
           <div className="card">
             <h2>Recebido por produto</h2>
             {Object.entries(PRODUTOS).map(([k, v]) => (

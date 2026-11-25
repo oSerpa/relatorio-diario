@@ -41,7 +41,7 @@ h2 { font-size: .95rem; font-weight: 600; margin: 0 0 1rem; }
 .kpi small { color: var(--texto-2); font-size: .82rem; }
 .kpi strong { font-size: 1.65rem; font-weight: 700; font-variant-numeric: tabular-nums; }
 
-.contagens { display: grid; grid-template-columns: repeat(6, 1fr); gap: .75rem; }
+.contagens { display: grid; grid-template-columns: repeat(5, 1fr); gap: .75rem; }
 .contagem { background: var(--painel); border: 1px solid var(--borda); border-radius: 10px; padding: .7rem 1rem; display: flex; justify-content: space-between; align-items: center; color: var(--texto-2); }
 .contagem strong { color: var(--texto); font-size: 1.15rem; }
 
@@ -121,8 +121,3 @@ tr.editando { background: rgba(59,130,246,.08); }
 .qtd span { color: var(--texto-2); font-size: .85rem; }
 .qtd input { border: 0; width: 80px; min-width: 0; background: transparent; }
 .qtd:focus-within { border-color: var(--azul); }
-.docs { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; }
-.doc { background: var(--painel-2); border-radius: 10px; padding: .8rem; display: flex; flex-direction: column; align-items: center; gap: .2rem; }
-.doc strong { font-size: 1.4rem; }
-.doc span { color: var(--texto-2); font-size: .82rem; }
-.tag.emissao { background: rgba(45,212,191,.15); color: #5eead4; }

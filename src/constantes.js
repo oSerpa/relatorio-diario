@@ -2,7 +2,6 @@ export const TIPOS = {
   cobranca: 'Cobrança',
   ligacao: 'Ligação',
   mensagem: 'Mensagem',
-  emissao: 'Emissão',
   recebimento: 'Recebimento',
   negociacao: 'Negociação',
 }
@@ -11,12 +10,6 @@ export const PRODUTOS = {
   multa: 'Multas de trânsito',
   km_excedente: 'Km excedente',
   arrendamento: 'Arrendamento',
-}
-
-export const DOCUMENTOS = {
-  autuacao: 'Autuação',
-  fatura: 'Fatura',
-  boleto: 'Boleto',
 }
 
 export const DIAS = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo']
@@ -46,13 +39,11 @@ export const diaDaSemana = (iso) => (new Date(iso + 'T12:00:00').getDay() + 6) %
 
 export function resumo(doDia, daSemana) {
   const contagem = Object.fromEntries(Object.keys(TIPOS).map((t) => [t, 0]))
-  const porDocumento = Object.fromEntries(Object.keys(DOCUMENTOS).map((d) => [d, 0]))
   const porProduto = Object.fromEntries(Object.keys(PRODUTOS).map((p) => [p, 0]))
   let recebidoTotal = 0
   let negociadoDia = 0
   for (const l of doDia) {
     contagem[l.tipo] += l.quantidade || 1
-    if (l.tipo === 'emissao' && l.documento) porDocumento[l.documento] += l.quantidade || 1
     if (l.tipo === 'recebimento') {
       recebidoTotal += Number(l.valor || 0)
       if (l.produto) porProduto[l.produto] += Number(l.valor || 0)
@@ -63,5 +54,5 @@ export function resumo(doDia, daSemana) {
   for (const l of daSemana) {
     if (l.tipo === 'negociacao') negociadoSemana[diaDaSemana(l.data)] += Number(l.valor || 0)
   }
-  return { contagem, porDocumento, porProduto, recebidoTotal, negociadoDia, negociadoSemana }
+  return { contagem, porProduto, recebidoTotal, negociadoDia, negociadoSemana }
 }
