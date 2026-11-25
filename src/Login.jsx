@@ -25,7 +25,7 @@ export default function Login() {
 
   return (
     <div className="login">
-      <h1>Relatório diário</h1>
+      <div className="login-topo"><h1>Relatório diário</h1><p className="sub">Registre o seu dia de trabalho e exporte em PDF</p></div>
       <form onSubmit={enviar} className="card">
         {modo === 'cadastrar' && (
           <input placeholder="Seu nome" value={nome} onChange={(e) => setNome(e.target.value)} required />

@@ -48,8 +48,8 @@ export default function Form({ onSalvar, editando, onCancelar }) {
             required={f.tipo !== 'cobranca'} />
         )}
       </div>
-      <input placeholder="Observação" value={f.descricao} onChange={set('descricao')} />
       <div className="linha">
+        <input placeholder="Observação" value={f.descricao} onChange={set('descricao')} />
         <button>{editando ? 'Salvar alteração' : 'Registrar'}</button>
         {editando && <button type="button" className="sec" onClick={onCancelar}>Cancelar</button>}
       </div>
