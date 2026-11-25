@@ -7,16 +7,20 @@ export default function Login() {
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
   const [msg, setMsg] = useState('')
+  const [enviando, setEnviando] = useState(false)
 
   async function enviar(e) {
     e.preventDefault()
+    if (enviando) return
+    setEnviando(true)
     setMsg('')
     const { error } =
       modo === 'entrar'
         ? await supabase.auth.signInWithPassword({ email, password: senha })
-        : await supabase.auth.signUp({ email, password: senha, options: { data: { nome } } })
+        : await supabase.auth.signUp({ email, password: senha, options: { data: { nome }, emailRedirectTo: window.location.origin + window.location.pathname } })
+    setEnviando(false)
     if (error) setMsg(error.message)
-    else if (modo === 'cadastrar') setMsg('Conta criada. Se pedir confirmação, veja seu e-mail.')
+    else if (modo === 'cadastrar') setMsg('Conta criada. Confirme pelo link que chegou no seu e-mail.')
   }
 
   return (
@@ -28,7 +32,7 @@ export default function Login() {
         )}
         <input type="email" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <input type="password" placeholder="Senha (mín. 6)" value={senha} onChange={(e) => setSenha(e.target.value)} required minLength={6} />
-        <button>{modo === 'entrar' ? 'Entrar' : 'Criar conta'}</button>
+        <button disabled={enviando}>{enviando ? 'Aguarde...' : modo === 'entrar' ? 'Entrar' : 'Criar conta'}</button>
         {msg && <p className="msg">{msg}</p>}
         <button type="button" className="link" onClick={() => setModo(modo === 'entrar' ? 'cadastrar' : 'entrar')}>
           {modo === 'entrar' ? 'Não tem conta? Cadastre-se' : 'Já tem conta? Entrar'}
