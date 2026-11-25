@@ -43,7 +43,7 @@ export function resumo(doDia, daSemana) {
   let recebidoTotal = 0
   let negociadoDia = 0
   for (const l of doDia) {
-    contagem[l.tipo]++
+    contagem[l.tipo] += l.quantidade || 1
     if (l.tipo === 'recebimento') {
       recebidoTotal += Number(l.valor || 0)
       if (l.produto) porProduto[l.produto] += Number(l.valor || 0)

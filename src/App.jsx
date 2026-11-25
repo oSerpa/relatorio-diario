@@ -108,7 +108,7 @@ function Painel({ usuario }) {
                     {doDia.map((l) => (
                       <tr key={l.id} className={editando?.id === l.id ? 'editando' : ''}>
                         <td className="hora">{new Date(l.created_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</td>
-                        <td><span className={'tag ' + l.tipo}>{TIPOS[l.tipo]}</span></td>
+                        <td><span className={'tag ' + l.tipo}>{TIPOS[l.tipo]}{l.quantidade > 1 ? ' × ' + l.quantidade : ''}</span></td>
                         <td>{l.produto ? PRODUTOS[l.produto] : '-'}</td>
                         <td>{l.cliente || '-'}</td>
                         <td className="num">{l.valor != null ? brl(l.valor) : '-'}</td>

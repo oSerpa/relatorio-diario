@@ -117,3 +117,7 @@ tr.editando { background: rgba(59,130,246,.08); }
   .kpis { grid-template-columns: 1fr; }
   .contagens { grid-template-columns: repeat(2, 1fr); }
 }
+.qtd { display: flex; align-items: center; border: 1px solid var(--borda); border-radius: 8px; background: var(--fundo); padding-left: .7rem; }
+.qtd span { color: var(--texto-2); font-size: .85rem; }
+.qtd input { border: 0; width: 80px; min-width: 0; background: transparent; }
+.qtd:focus-within { border-color: var(--azul); }

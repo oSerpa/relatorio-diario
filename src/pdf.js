@@ -38,7 +38,7 @@ export function exportarPDF({ nome, data, lancamentos, r }) {
     head: [['Hora', 'Tipo', 'Produto', 'Cliente', 'Valor', 'Observação']],
     body: lancamentos.map((l) => [
       new Date(l.created_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
-      TIPOS[l.tipo],
+      TIPOS[l.tipo] + (l.quantidade > 1 ? ' x' + l.quantidade : ''),
       l.produto ? PRODUTOS[l.produto] : '',
       l.cliente || '',
       l.valor != null ? brl(l.valor) : '',

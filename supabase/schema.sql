@@ -8,6 +8,7 @@ create table if not exists public.lancamentos (
   cliente text,
   valor numeric(12,2) check (valor is null or valor >= 0),
   descricao text,
+  quantidade integer not null default 1 check (quantidade between 1 and 1000),
   created_at timestamptz not null default now()
 );
 

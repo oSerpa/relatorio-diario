@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { TIPOS, PRODUTOS } from './constantes'
 
-const vazio = { tipo: 'cobranca', produto: '', cliente: '', valor: '', descricao: '' }
+const vazio = { tipo: 'cobranca', produto: '', cliente: '', valor: '', descricao: '', quantidade: 1 }
 
 export default function Form({ onSalvar, editando, onCancelar }) {
   const [f, setF] = useState(vazio)
@@ -11,6 +11,7 @@ export default function Form({ onSalvar, editando, onCancelar }) {
 
   const set = (k) => (e) => setF({ ...f, [k]: e.target.value })
   const usaProduto = ['cobranca', 'recebimento', 'negociacao'].includes(f.tipo)
+  const usaQtd = ['ligacao', 'mensagem', 'cobranca'].includes(f.tipo)
   const usaValor = ['recebimento', 'negociacao', 'cobranca'].includes(f.tipo)
 
   async function enviar(e) {
@@ -21,6 +22,7 @@ export default function Form({ onSalvar, editando, onCancelar }) {
       cliente: f.cliente || null,
       valor: usaValor && f.valor !== '' ? Number(f.valor) : null,
       descricao: f.descricao || null,
+      quantidade: usaQtd ? Math.max(1, parseInt(f.quantidade) || 1) : 1,
     })
     if (ok && !editando) setF({ ...vazio, tipo: f.tipo })
   }
@@ -42,7 +44,13 @@ export default function Form({ onSalvar, editando, onCancelar }) {
             {Object.entries(PRODUTOS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
           </select>
         )}
-        <input placeholder="Cliente / placa / contrato" value={f.cliente} onChange={set('cliente')} />
+        {usaQtd && (
+          <label className="qtd" title="Quantidade">
+            <span>Qtd.</span>
+            <input type="number" min="1" max="1000" value={f.quantidade} onChange={set('quantidade')} />
+          </label>
+        )}
+        <input placeholder={usaQtd ? 'Cliente / placa / contrato (opcional)' : 'Cliente / placa / contrato'} value={f.cliente} onChange={set('cliente')} />
         {usaValor && (
           <input type="number" step="0.01" min="0" placeholder="Valor (R$)" value={f.valor} onChange={set('valor')}
             required={f.tipo !== 'cobranca'} />
