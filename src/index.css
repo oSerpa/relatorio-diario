@@ -1,0 +1,33 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, sans-serif; background: #f3f4f6; color: #1f2937; }
+h1 { margin: 0; font-size: 1.4rem; }
+h2 { font-size: 1rem; margin: 0 0 .75rem; }
+.app { max-width: 1200px; margin: 0 auto; padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
+header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .75rem; }
+.linha { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+.linha > input, .linha > select { flex: 1; min-width: 140px; }
+.card { background: #fff; border-radius: 10px; padding: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+.cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: .75rem; }
+.mini { display: flex; flex-direction: column; gap: .25rem; }
+.mini strong { font-size: 1.6rem; }
+.grade { display: grid; grid-template-columns: 1.4fr 1fr; gap: 1rem; }
+.form { display: flex; flex-direction: column; gap: .6rem; }
+.tipos { display: flex; gap: .4rem; flex-wrap: wrap; }
+.tipos button { background: #e5e7eb; color: #1f2937; }
+.tipos button.ativo { background: #2563eb; color: #fff; }
+input, select { padding: .55rem .65rem; border: 1px solid #d1d5db; border-radius: 6px; font: inherit; background: #fff; }
+button { padding: .55rem .9rem; border: 0; border-radius: 6px; background: #2563eb; color: #fff; font: inherit; cursor: pointer; }
+button.sec { background: #e5e7eb; color: #1f2937; }
+button.link { background: none; color: #2563eb; padding: 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+td, th { padding: .45rem .5rem; border-bottom: 1px solid #eee; text-align: left; font-size: .92rem; }
+td:last-child { text-align: right; }
+.lista td:last-child { white-space: nowrap; }
+.acoes button { padding: .3rem .6rem; margin-left: .3rem; }
+.total td { font-weight: 600; }
+.erro { background: #fee2e2; color: #991b1b; padding: .6rem; border-radius: 6px; margin: 0; }
+.vazio { color: #6b7280; }
+.login { max-width: 360px; margin: 10vh auto; display: flex; flex-direction: column; gap: 1rem; padding: 0 1rem; }
+.login form { display: flex; flex-direction: column; gap: .6rem; }
+.msg { margin: 0; font-size: .9rem; color: #374151; }
+@media (max-width: 800px) { .cards { grid-template-columns: repeat(2, 1fr); } .grade { grid-template-columns: 1fr; } }
