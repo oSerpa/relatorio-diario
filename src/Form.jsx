@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react'
-import { TIPOS, PRODUTOS } from './constantes'
+import { TIPOS, PRODUTOS, DOCUMENTOS } from './constantes'
 
-const vazio = { tipo: 'cobranca', produto: '', cliente: '', valor: '', descricao: '', quantidade: 1 }
+const vazio = { tipo: 'cobranca', produto: '', cliente: '', valor: '', descricao: '', quantidade: 1, documento: '' }
 
 export default function Form({ onSalvar, editando, onCancelar }) {
   const [f, setF] = useState(vazio)
   useEffect(() => {
-    setF(editando ? { ...vazio, ...editando, produto: editando.produto || '', valor: editando.valor ?? '' } : vazio)
+    setF(editando ? { ...vazio, ...editando, produto: editando.produto || '', documento: editando.documento || '', valor: editando.valor ?? '' } : vazio)
   }, [editando])
 
   const set = (k) => (e) => setF({ ...f, [k]: e.target.value })
-  const usaProduto = ['cobranca', 'recebimento', 'negociacao'].includes(f.tipo)
-  const usaQtd = ['ligacao', 'mensagem', 'cobranca'].includes(f.tipo)
+  const usaProduto = ['cobranca', 'emissao', 'recebimento', 'negociacao'].includes(f.tipo)
+  const usaDoc = f.tipo === 'emissao'
+  const usaQtd = ['ligacao', 'mensagem', 'cobranca', 'emissao'].includes(f.tipo)
   const usaValor = ['recebimento', 'negociacao', 'cobranca'].includes(f.tipo)
 
   async function enviar(e) {
@@ -22,6 +23,7 @@ export default function Form({ onSalvar, editando, onCancelar }) {
       cliente: f.cliente || null,
       valor: usaValor && f.valor !== '' ? Number(f.valor) : null,
       descricao: f.descricao || null,
+      documento: usaDoc ? f.documento : null,
       quantidade: usaQtd ? Math.max(1, parseInt(f.quantidade) || 1) : 1,
     })
     if (ok && !editando) setF({ ...vazio, tipo: f.tipo })
@@ -44,13 +46,19 @@ export default function Form({ onSalvar, editando, onCancelar }) {
             {Object.entries(PRODUTOS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
           </select>
         )}
+        {usaDoc && (
+          <select value={f.documento} onChange={set('documento')} required>
+            <option value="">Documento</option>
+            {Object.entries(DOCUMENTOS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+          </select>
+        )}
         {usaQtd && (
           <label className="qtd" title="Quantidade">
             <span>Qtd.</span>
             <input type="number" min="1" max="1000" value={f.quantidade} onChange={set('quantidade')} />
           </label>
         )}
-        <input placeholder={usaQtd ? 'Cliente / placa / contrato (opcional)' : 'Cliente / placa / contrato'} value={f.cliente} onChange={set('cliente')} />
+        <input placeholder={usaQtd ? 'Cliente (opcional)' : 'Cliente / placa / contrato'} value={f.cliente} onChange={set('cliente')} />
         {usaValor && (
           <input type="number" step="0.01" min="0" placeholder="Valor (R$)" value={f.valor} onChange={set('valor')}
             required={f.tipo !== 'cobranca'} />

@@ -1,6 +1,6 @@
 import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
-import { TIPOS, PRODUTOS, DIAS, brl, dataBR } from './constantes'
+import { TIPOS, PRODUTOS, DOCUMENTOS, DIAS, brl, dataBR } from './constantes'
 
 export function exportarPDF({ nome, data, lancamentos, r }) {
   const doc = new jsPDF()
@@ -13,6 +13,13 @@ export function exportarPDF({ nome, data, lancamentos, r }) {
     startY: 32,
     head: [['Atividade', 'Quantidade']],
     body: Object.entries(TIPOS).map(([k, v]) => [v, r.contagem[k]]),
+    theme: 'grid',
+  })
+
+  autoTable(doc, {
+    startY: doc.lastAutoTable.finalY + 6,
+    head: [['Emissões', 'Quantidade']],
+    body: Object.entries(DOCUMENTOS).map(([k, v]) => [v, r.porDocumento[k]]),
     theme: 'grid',
   })
 
@@ -38,7 +45,7 @@ export function exportarPDF({ nome, data, lancamentos, r }) {
     head: [['Hora', 'Tipo', 'Produto', 'Cliente', 'Valor', 'Observação']],
     body: lancamentos.map((l) => [
       new Date(l.created_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
-      TIPOS[l.tipo] + (l.quantidade > 1 ? ' x' + l.quantidade : ''),
+      TIPOS[l.tipo] + (l.documento ? ': ' + DOCUMENTOS[l.documento] : '') + (l.quantidade > 1 ? ' x' + l.quantidade : ''),
       l.produto ? PRODUTOS[l.produto] : '',
       l.cliente || '',
       l.valor != null ? brl(l.valor) : '',
